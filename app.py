@@ -41,7 +41,7 @@ hr { border-color:#30313a; }
 
 try:
     from src.chunking.splitter import split_documents
-    from src.config import ROOT_DIR, settings
+    from src.config import MISSING_GROQ_KEY_MESSAGE, ROOT_DIR, settings
     from src.ingestion.loaders import load_uploaded_file, load_webpage
     from src.llm.answer import contextualize_question, generate_answer
     from src.retrieval.search import retrieve
@@ -117,7 +117,7 @@ with st.sidebar:
         st.error(f"Indexing error: {index_error}")
 
     if not settings.groq_api_key:
-        st.info("Add GROQ_API_KEY to `.env` to enable answer generation.")
+        st.info(MISSING_GROQ_KEY_MESSAGE)
 
 namespace = f"{chroma_path}|{collection_name.strip()}"
 if st.session_state.get("active_namespace") != namespace:
@@ -167,7 +167,7 @@ if not st.session_state.messages:
         st.caption(st.session_state.index_status)
 
 if documents and selected_ids and not settings.groq_api_key:
-    st.info("Search can find matching passages, but answer generation is unavailable until you add `GROQ_API_KEY` to `.env` and restart Streamlit.")
+    st.info(MISSING_GROQ_KEY_MESSAGE)
 
 for item in st.session_state.messages:
     with st.chat_message(item["role"]):
@@ -209,7 +209,7 @@ if prompt:
                     if not passages:
                         answer = "I couldn't find enough information in the selected sources to answer that. Try selecting a different document or adding relevant material."
                     elif not settings.groq_api_key:
-                        answer = "Relevant passages were found, but answer generation needs a Groq API key. Add GROQ_API_KEY to your local `.env` file and restart the app."
+                        answer = MISSING_GROQ_KEY_MESSAGE
                     else:
                         answer, answer_ms = generate_answer(prompt, passages, history=history, model_name=model_name)
                 for index, doc in enumerate(passages, 1):
