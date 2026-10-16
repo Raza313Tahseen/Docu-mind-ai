@@ -1,0 +1,5 @@
+[
+  {"question": "Which model does DocuMind use to create local embeddings?", "expected_evidence": "sentence-transformers/all-MiniLM-L6-v2", "reference_answer": "DocuMind uses sentence-transformers/all-MiniLM-L6-v2 to create local embeddings."},
+  {"question": "Where should I put the Groq API key?", "expected_evidence": ".env", "reference_answer": "Put the Groq API key in the local .env file."},
+  {"question": "Which uploaded file formats are supported?", "expected_evidence": "PDF, DOCX, CSV, JSON, TXT", "reference_answer": "DocuMind supports PDF, DOCX, CSV, JSON, and TXT uploads."}
+]
